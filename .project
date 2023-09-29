@@ -3,9 +3,6 @@
 	<name>inventoryManagement</name>
 	<comment></comment>
 	<projects>
-		<project>jstl-1.2</project>
-		<project>protobuf-java-3.21.9</project>
-		<project>mysql-connector-j-8.1.0</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -23,8 +20,14 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>

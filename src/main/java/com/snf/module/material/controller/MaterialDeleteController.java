@@ -17,46 +17,42 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.snf.database.DBSettings;
 import com.snf.domain.MaterialData;
-import com.snf.module.view.controller.ViewController;
 
-@WebServlet("/material/insert")
-public class MaterialController extends HttpServlet {
+@WebServlet("/material/delete")
+public class MaterialDeleteController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     	List<MaterialData> materialList = new ArrayList<>();
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding(DBSettings.ENCODING);
+        response.setCharacterEncoding(DBSettings.ENCODING);
 
-        String largeCat = request.getParameter("largeCat");
-        String midCat = request.getParameter("midCat");
-        String smallCat = request.getParameter("smallCat");
-
+        String paramId = request.getParameter("id");
+        int resultCount = 0;
         // JDBC 연결 정보 설정
-		String username = DBSettings.USERNAME;
-		String password = DBSettings.PASSWORD;
-		String databaseURL = DBSettings.DATABASE_URL;
+        String username = DBSettings.USERNAME;
+        String password = DBSettings.PASSWORD;
+        String databaseURL = DBSettings.DATABASE_URL;
 
         try {
             // JDBC 드라이버 로드
-			Class.forName(DBSettings.CLASS_FOR_NAME);
+            Class.forName(DBSettings.CLASS_FOR_NAME);
 
             // 데이터베이스 연결
             Connection connection = DriverManager.getConnection(databaseURL, username, password);
 
-            // SQL 쿼리 실행 (여기서는 간단한 예제로 PreparedStatement 사용)
-            String query = "INSERT INTO MI01 (LC, MC, SC, CREATED_DATE) VALUES (?, ?, ?, NOW())";
+            // SQL 쿼리 실행 (재고 테이블 데이터 삭제)
+            String query = "DELETE FROM MI02 WHERE M_ID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, largeCat);
-            preparedStatement.setString(2, midCat);
-            preparedStatement.setString(3, smallCat);
-            preparedStatement.executeUpdate();
+            preparedStatement.setString(1, paramId);
+            resultCount = preparedStatement.executeUpdate();
             
-            // SQL 쿼리 실행 (MI02 재고 테이블에 재고수량 0개로 등록)
-            query = "INSERT INTO MI02 (M_ID, QTY, CREATED_DATE) VALUES ((SELECT MAX(ID) FROM MI01), 0, NOW())";
+            // SQL 쿼리 실행 (여기서는 간단한 예제로 PreparedStatement 사용)
+            query = "DELETE FROM MI01 WHERE ID = ?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.executeUpdate();
-
+            preparedStatement.setString(1, paramId);
+            resultCount = preparedStatement.executeUpdate();
+           
             // 등록된 데이터 확인하기
             String selectQuery = "SELECT row_number() over(order by LC asc) as num, ID, LC, MC, SC FROM MI01";
             PreparedStatement selectStatement = connection.prepareStatement(selectQuery);

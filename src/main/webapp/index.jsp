@@ -7,31 +7,48 @@
 <title>SNF 재고 관리 시스템</title>
 <script>
 function link0() {
-	location.href='http://localhost:8080/createMaterial.jsp';
+	document.getElementById("pageName").value="createMaterial";
+	doMovePage();
 }
 function link1() {
-	location.href='http://localhost:8080/storing.jsp';
+	document.getElementById("pageName").value="storing";
+	doMovePage();
 }
 function link2() {
-	location.href='http://localhost:8080/unstoring.jsp';
+	document.getElementById("pageName").value="unstoring";
+	doMovePage();
 }
 function link3() {
-	location.href='http://localhost:8080/inventoryCheck.jsp';
+	document.getElementById("pageName").value="inventoryCheck";
+	doMovePage();
 }
 function link4() {
-	location.href='http://localhost:8080/historyCheck.jsp';
+	document.getElementById("pageName").value="historyCheck";
+	doMovePage();
+}
+function link5() {
+	document.getElementById("pageName").value="codeManage";
+	doMovePage();
+}
+function doMovePage(){
+	document.getElementById("form").submit();
 }
 </script>
 </head>
 <body>
-<button onclick="link0();">신규 자재 추가</button>
-<br/>
-<button onclick="link1();">입고 등록</button>
-<br/>
-<button onclick="link2();">출고 등록</button>
-<br/>
-<button onclick="link3();">현재 재고 조회</button>
-<br/>
-<button onclick="link4();">이력 조회</button>
+ <form id="form" method="post" action="/view/viewPage">
+ 	<input type="hidden" id="pageName" name="pageName" /> 
+	<button onclick="link0();">신규 자재 추가</button>
+	<br/>
+	<button onclick="link1();">입고 등록</button>
+	<br/>
+	<button onclick="link2();">출고 등록</button>
+	<br/>
+	<button onclick="link3();">현재 재고 조회</button>
+	<br/>
+	<button onclick="link4();">이력 조회</button>
+	<br/>
+	<button onclick="link5();">코드 관리</button>
+</form>
 </body>
 </html>
